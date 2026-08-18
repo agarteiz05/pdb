@@ -157,10 +157,10 @@ function UnlockInner({
             <img
               src={achievement.card_image_url}
               alt={achievement.title}
-              className="w-full drop-shadow-[0_6px_14px_rgba(43,27,18,0.22)] mb-5"
+              className="w-full max-w-[240px] mx-auto md:max-w-none drop-shadow-[0_6px_14px_rgba(43,27,18,0.22)] mb-5"
             />
           )}
-          <div className="flex gap-2.5">
+          <div className="flex gap-2.5 max-w-[240px] mx-auto md:max-w-none">
             <a
               href={achievement.card_image_url || "#"}
               download
