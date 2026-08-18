@@ -1,6 +1,9 @@
 import { supabase } from "@/lib/supabase";
 import AchievementUnlock from "@/components/AchievementUnlock";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function LogroPage({
   params,
 }: {
