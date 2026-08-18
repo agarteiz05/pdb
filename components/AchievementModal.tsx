@@ -29,7 +29,9 @@ export default function AchievementModal({
   const [existingImageUrl] = useState(achievement?.card_image_url || null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [uploadingContentImage, setUploadingContentImage] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const contentImageInputRef = useRef<HTMLInputElement>(null);
 
   function insertAtCursor(before: string, after: string = "") {
     const textarea = textareaRef.current;
@@ -56,7 +58,29 @@ export default function AchievementModal({
   }
 
   function insertImage() {
-    insertAtCursor("\n\n![descripción](url-de-la-imagen)\n\n");
+    contentImageInputRef.current?.click();
+  }
+
+  async function handleContentImageSelected(file: File | null) {
+    if (!file) return;
+    setUploadingContentImage(true);
+    setError("");
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("achievement-images")
+        .upload(path, file);
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from("achievement-images").getPublicUrl(path);
+      const altText = file.name.replace(/\.[^/.]+$/, "");
+      insertAtCursor(`\n\n![${altText}](${data.publicUrl})\n\n`);
+    } catch (err) {
+      console.error(err);
+      setError("No se pudo subir la imagen. Probá de nuevo.");
+    } finally {
+      setUploadingContentImage(false);
+    }
   }
 
   async function uploadImage(): Promise<string | null> {
@@ -263,10 +287,21 @@ export default function AchievementModal({
           <button
             type="button"
             onClick={insertImage}
-            className="text-xs font-medium border border-neutral-300 rounded-md px-2.5 py-1.5 bg-neutral-50 hover:bg-neutral-100"
+            disabled={uploadingContentImage}
+            className="text-xs font-medium border border-neutral-300 rounded-md px-2.5 py-1.5 bg-neutral-50 hover:bg-neutral-100 disabled:opacity-60"
           >
-            🖼 imagen
+            {uploadingContentImage ? "Subiendo..." : "🖼 imagen"}
           </button>
+          <input
+            ref={contentImageInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              handleContentImageSelected(e.target.files?.[0] || null);
+              e.target.value = "";
+            }}
+          />
           <span className="text-xs text-neutral-400 self-center">
             pegá un link de Spotify en su propia línea para embeberlo
           </span>
