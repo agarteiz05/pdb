@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${prata.variable} ${workSans.variable}`}>
-      <body className="bg-pink font-body text-ink">{children}</body>
+      <body className="font-body text-ink">{children}</body>
     </html>
   );
 }

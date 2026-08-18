@@ -1,1 +1,9 @@
-export default function MiViaje() { return <div className="p-10 text-ivory">Mi viaje (en construcción)</div>; }
+import MapView from "@/components/MapView";
+
+export default function MiViaje() {
+  return (
+    <div className="min-h-screen bg-pink">
+      <MapView />
+    </div>
+  );
+}

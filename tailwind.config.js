@@ -7,8 +7,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        pink: "#EC2E85",
-        teal: "#1CA9B8",
+        pink: {
+          DEFAULT: "#FD6196",
+          50: "#FBEAF0",
+          800: "#72243E",
+        },
+        teal: {
+          DEFAULT: "#1CA9B8",
+          50: "#E1F5EE",
+          800: "#085041",
+        },
         mustard: "#E89339",
         cream: "#F5EAD6",
         ivory: "#FBF0DE",
