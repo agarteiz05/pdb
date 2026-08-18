@@ -3,7 +3,7 @@ import React from "react";
 function renderInline(text: string, key: number): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return (
-    <p key={key} className="text-[15px] leading-relaxed text-ink/80 mb-4">
+    <p key={key} className="text-[15px] leading-relaxed text-ink/80 mb-4 whitespace-pre-line">
       {parts.map((part, i) =>
         part.startsWith("**") && part.endsWith("**") ? (
           <strong key={i} className="font-semibold text-ink">
